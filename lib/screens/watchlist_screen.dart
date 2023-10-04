@@ -7,6 +7,8 @@ import 'package:stocks_app/widgets/stock_card.dart';
 import 'package:stocks_app/widgets/stock_search.dart';
 
 import '../models/stock.dart';
+// import '../widgets/date_and_time.dart';
+import '../widgets/sort_bottom_sheet.dart';
 
 class WatchListScreen extends StatefulWidget {
   const WatchListScreen({super.key});
@@ -16,16 +18,9 @@ class WatchListScreen extends StatefulWidget {
 }
 
 class _WatchListScreenState extends State<WatchListScreen> {
-  // final List<Map<String, dynamic>?> _selectedStockData =
-  //     []; //private field could be final
-
-  // void removeSelectedSearch() {
-  //   _selectedStockData.clear();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    final stockProvider = Provider.of<StockProvider>(context, listen: false);
+    // final stockProvider = Provider.of<StockProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +35,7 @@ class _WatchListScreenState extends State<WatchListScreen> {
         actions: [
           Consumer<StockProvider>(
             builder: (context, stockProvider, child) {
-              return stockProvider.selectedStockData.isNotEmpty
+              return stockProvider.selectedStockData.isNotEmpty 
                   ? IconButton(
                       icon: const Icon(
                         Icons.clear_rounded,
@@ -55,7 +50,7 @@ class _WatchListScreenState extends State<WatchListScreen> {
           ),
           IconButton(
             color: Colors.white,
-            iconSize: 30,
+            iconSize: 30.0,
             onPressed: () async {
               final selectedStock = await showSearch(
                 context: context,
@@ -67,7 +62,11 @@ class _WatchListScreenState extends State<WatchListScreen> {
                   selectedStock.containsKey('companyName') &&
                   selectedStock.containsKey('price') &&
                   selectedStock.containsKey('percentageChange')) {
-                stockProvider.addSelectedStock(
+                if (!mounted) {
+                  return;
+                }
+                Provider.of<StockProvider>(context, listen: false)
+                    .addSelectedStock(
                   StockModel(
                     symbol: selectedStock['symbol'],
                     companyName: selectedStock['companyName'],
@@ -88,12 +87,27 @@ class _WatchListScreenState extends State<WatchListScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                '29 September 2023',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Colors.grey),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '29 September 2023',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Colors.grey),
+                  ),
+                  IconButton(
+                    color: Colors.white,
+                    iconSize: 30.0,
+                    onPressed: () {
+                      _showSortBottomSheet();
+                    },
+                    icon: const Icon(
+                      Icons.sort,
+                    ),
+                  ),
+                ],
               ),
             ),
             // DateAndTime(),
@@ -133,17 +147,44 @@ class _WatchListScreenState extends State<WatchListScreen> {
   }
 
   Widget listOfStocks() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: StockData.stockData.length,
-      itemBuilder: (context, index) {
-        final stock = StockData.stockData[index];
-        return StockCard(
-          symbol: stock['symbol'],
-          companyName: stock['companyName'],
-          price: stock['price'],
-          percentageChange: stock['percentageChange'],
-        );
+    return Consumer<StockProvider>(
+      builder: (context, value, child) {
+        return value.sortedStocks.isNotEmpty
+            ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: value.sortedStocks.length,
+                itemBuilder: (context, index) {
+                  final stock = value.sortedStocks[index];
+                  return StockCard(
+                    symbol: stock['symbol'],
+                    companyName: stock['companyName'],
+                    price: stock['price'],
+                    percentageChange: stock['percentageChange'],
+                  );
+                },
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                itemCount: StockData.stockData.length,
+                itemBuilder: (context, index) {
+                  final stock = StockData.stockData[index];
+                  return StockCard(
+                    symbol: stock['symbol'],
+                    companyName: stock['companyName'],
+                    price: stock['price'],
+                    percentageChange: stock['percentageChange'],
+                  );
+                },
+              );
+      },
+    );
+  }
+
+  void _showSortBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return const SortBottomSheet();
       },
     );
   }

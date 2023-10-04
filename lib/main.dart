@@ -23,6 +23,7 @@ class App extends StatelessWidget {
 
     final themeData =  ThemeData(
       useMaterial3: true,
+      bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.black54),
       scaffoldBackgroundColor: Colors.black,
       colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 75, 183, 165)),
       textTheme: TextTheme(
@@ -39,7 +40,9 @@ class App extends StatelessWidget {
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w600
       ),
-      bodyMedium: GoogleFonts.inter(),
+      bodyMedium: GoogleFonts.inter(
+        fontSize: 20
+      ),
       displaySmall: GoogleFonts.inter(),
     ),
     );

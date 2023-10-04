@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stocks_app/screens/details_screen.dart';
 
 class StockCard extends StatelessWidget {
   final String symbol;
@@ -18,12 +19,16 @@ class StockCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => const ,))
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DetailsScreen(),
+          ),
+        );
       },
-      child: Card(  
-        
+      child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        elevation: 5.0,  
+        elevation: 5.0,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -34,16 +39,16 @@ class StockCard extends StatelessWidget {
                   Text(
                     symbol,
                     style: Theme.of(context)
-                  .textTheme
-                  .displayMedium!
-                  .copyWith(color: Colors.black),
+                        .textTheme
+                        .displayMedium!
+                        .copyWith(color: Colors.black),
                   ),
                   Text(
                     '\$${price.toStringAsFixed(2)}',
                     style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: Colors.black),
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Colors.black),
                   ),
                 ],
               ),
@@ -68,7 +73,6 @@ class StockCard extends StatelessWidget {
             ],
           ),
         ),
-        
       ),
     );
   }

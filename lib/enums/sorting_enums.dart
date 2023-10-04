@@ -1,0 +1,5 @@
+enum SortingOption
+{
+  companyName,
+  price,
+}
