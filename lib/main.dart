@@ -35,15 +35,19 @@ class App extends StatelessWidget {
         fontSize: 25,  
         fontWeight: FontWeight.bold,
       ),
+      displaySmall: GoogleFonts.inter(
+        fontSize: 20,  
+        fontWeight: FontWeight.bold,
+      ),
       titleLarge: GoogleFonts.inter(
         fontSize: 20,
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w600
       ),
+      
       bodyMedium: GoogleFonts.inter(
         fontSize: 20
       ),
-      displaySmall: GoogleFonts.inter(),
     ),
     );
 

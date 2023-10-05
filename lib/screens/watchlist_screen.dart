@@ -20,7 +20,6 @@ class WatchListScreen extends StatefulWidget {
 class _WatchListScreenState extends State<WatchListScreen> {
   @override
   Widget build(BuildContext context) {
-    // final stockProvider = Provider.of<StockProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stocks_app/models/stock.dart';
 import 'package:stocks_app/screens/details_screen.dart';
 
 class StockCard extends StatelessWidget {
@@ -22,7 +23,13 @@ class StockCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const DetailsScreen(),
+            builder: (context) => DetailsScreen(
+              stock: StockModel(
+                  symbol: symbol,
+                  companyName: companyName,
+                  price: price,
+                  percentageChange: percentageChange),
+            ),
           ),
         );
       },

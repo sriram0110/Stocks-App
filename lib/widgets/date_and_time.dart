@@ -14,6 +14,7 @@ class DateAndTime extends StatelessWidget {
         if (snapshot.hasData) {
           DateTime now = snapshot.data!;
           return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 '${now.hour}:${now.minute}:${now.second}',
@@ -30,7 +31,7 @@ class DateAndTime extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme 
                     .titleMedium!
-                    .copyWith(color: Colors.grey[600]),  
+                    .copyWith(color: Colors.white),  
               ),
             ],
           );
